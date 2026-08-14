@@ -1,0 +1,110 @@
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "62d6cfe7-47c8-42bc-8449-b86d227d28aa",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "82dba5c5-d80d-484a-a4e3-294561c11b71",
+      "name": "Webhook",
+      "webhookId": "62d6cfe7-47c8-42bc-8449-b86d227d28aa"
+    },
+    {
+      "parameters": {
+        "url": "https://official-joke-api.appspot.com/random_joke",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "fa4db3ec-0643-4fb6-9b3b-8ac07f71b4a3",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "const jokeData = $input.item.json;\nconst fullJoke = `Setup: ${jokeData.setup} \\nPunchline: ${jokeData.punchline}`;\nreturn [ { json: { message: fullJoke } } ];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "59677070-14bd-421c-93c6-952fc8333b2e",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "toEmail": "test@example.com",
+        "subject": "Your Daily Joke",
+        "emailBody": "={{ $json.message }}"
+      },
+      "type": "n8n-nodes-flowengine.sendEmailTest",
+      "typeVersion": 1,
+      "position": [
+        624,
+        0
+      ],
+      "id": "bf24d620-e10c-4f3a-b9f3-30c2580aac53",
+      "name": "FlowEngine Send Email Test"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "FlowEngine Send Email Test",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "5f51f5e9-4295-4b9a-acaf-3216334256e2",
+  "meta": {
+    "instanceId": "88ccf676d9aec16305c6352df17b08b08c3f5d3da881bbc002250afc161f9814"
+  },
+  "nodeGroups": [],
+  "id": "g0tjzAtJvMuiqvm7",
+  "tags": []
+}
