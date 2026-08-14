@@ -1,0 +1,187 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "999aea8e-4004-4cc7-9c12-0892ff39a1da",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "10ad6514-62e3-4e68-a375-ad106d840b32",
+      "name": "Webhook",
+      "webhookId": "999aea8e-4004-4cc7-9c12-0892ff39a1da"
+    },
+    {
+      "parameters": {
+        "url": "https://api.apitube.io/v1/news/everything?category.id=medtop:13000000&api_key=api_live_uHuwCWfQaweR27wTLJNff5MFpRR1ssp4Vlye2qeCqgT0jGvC9",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "f1871daf-c1ad-4161-ad33-fc356c63a513",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "const jokeData = $input.item.json;\nconst fullJoke = `Setup: ${jokeData.setup} \\nPunchline: ${jokeData.punchline}`;\nreturn [ { json: { message: fullJoke } } ];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "f41507c3-86a4-4aac-a342-dcfa209eda81",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "toEmail": "test@example.com",
+        "subject": "Your Daily Joke",
+        "emailBody": "={{ $json.message }}"
+      },
+      "type": "n8n-nodes-flowengine.sendEmailTest",
+      "typeVersion": 1,
+      "position": [
+        624,
+        0
+      ],
+      "id": "11daac41-4282-45c6-b939-238da262f731",
+      "name": "FlowEngine Send Email Test"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1jEeI7fldkkxvV_yXRsbBrsstGxFd1cfjKV9PSzP8kro",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jEeI7fldkkxvV_yXRsbBrsstGxFd1cfjKV9PSzP8kro/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jEeI7fldkkxvV_yXRsbBrsstGxFd1cfjKV9PSzP8kro/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "DH": "12, 23,  34",
+            "dh": "45, 56,  67"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "DH",
+              "displayName": "DH",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "dh",
+              "displayName": "dh",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        832,
+        0
+      ],
+      "id": "1107fa11-e49b-447e-aaec-a0c5712e17ad",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ltfESX3UtTD74xPm",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "FlowEngine Send Email Test",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FlowEngine Send Email Test": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "42890c35-abd7-47a4-93a8-cfc535502dfd",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "88ccf676d9aec16305c6352df17b08b08c3f5d3da881bbc002250afc161f9814"
+  },
+  "nodeGroups": [],
+  "id": "PDATTKbl26otBRUy",
+  "tags": []
+}
