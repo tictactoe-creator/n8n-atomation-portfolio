@@ -34,7 +34,7 @@ This repository contains **4 production-ready automation workflows** built with 
 
 ---
 
-## 📂 Project 3: Smart Gmail Email Triage (Upcoming/To be added)
+## 📂 Project 3: Smart Gmail Email Triage
 **File:** `project-3-gmail-triage.json`
 - **Trigger:** Gmail Trigger (Real-time).
 - **Logic:** Analyzes incoming emails (Subject/Body) via AI → Classifies as "Finance," "Urgent," or "General" → Sends an alert to Slack if urgent, or forwards to finance if relevant.
